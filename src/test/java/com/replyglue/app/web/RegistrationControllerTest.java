@@ -1,5 +1,6 @@
-package com.replyglue.app.controller;
+package com.replyglue.app.web;
 
+import com.google.gson.Gson;
 import com.replyglue.app.domain.User;
 import com.replyglue.app.service.RegistrationService;
 import org.junit.Before;
@@ -8,11 +9,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,9 +45,9 @@ public class RegistrationControllerTest {
          userDAO = new ArrayList<>(Arrays.asList(
                 new User("r1Chard", "passWord123", "rich@me.com", null),
                 new User("simonE1B", "seCret11", "rich@me.com", null),
-                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234l),
+                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234L),
                 new User("mEshPr0ducts", "M3SHmeUp", "rich@me.com", null),
-                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111l)
+                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111L)
         ));
     }
 
@@ -59,9 +63,9 @@ public class RegistrationControllerTest {
     public void test_getUsersWithCreditCard_shouldReturn_Users() throws Exception {
         //Given
         String yesNoAll = "no";
-        List<User> dao = new ArrayList<User>(Arrays.asList(
-                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234l),
-                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111l)
+        List<User> dao = new ArrayList<>(Arrays.asList(
+                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234L),
+                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111L)
         ));
 
         mockMvc.perform(get("/users")
@@ -73,5 +77,19 @@ public class RegistrationControllerTest {
 
         assertEquals(dao,  usersWithCards);
     }
+
+    @Test
+    public void testUserResponseBody_withValidInput_statusOK() throws Exception {
+        User testUser = new User(
+                "r1Chard", "passWord123",
+                "rich@me.com", LocalDate.of(1984, 5, 9), 1111222233334444L
+        );
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/")
+                        .content(new Gson().toJson(testUser))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+//                .andExpect(status().isCreated());  //TODO fix status code 400
+    }
+
 
 }

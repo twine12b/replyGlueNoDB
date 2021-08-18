@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -14,7 +13,6 @@ public class RegistrationService {
 
     @Autowired
     private RegistrationRepository registrationRepository;
-
 
     public List<User> findUsersWithCreditCard(String yesNoALl) {
         switch (yesNoALl) {
@@ -24,8 +22,6 @@ public class RegistrationService {
         }
     }
 
-
-
     public List<User> findAllUsers() {
         return registrationRepository.findAllUsers();
     }
@@ -33,6 +29,4 @@ public class RegistrationService {
     public User findUsersByUsername(String username) {
         return registrationRepository.findUsersByUsername(username);
     }
-
-
 }
