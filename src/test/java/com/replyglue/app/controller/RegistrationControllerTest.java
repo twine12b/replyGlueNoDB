@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.when;
@@ -38,7 +37,8 @@ public class RegistrationControllerTest {
 
     @Before
     public void setUp(){
-         userDAO = new ArrayList<User>(Arrays.asList(
+//        registrationController = new RegistrationController(registrationService);
+         userDAO = new ArrayList<>(Arrays.asList(
                 new User("r1Chard", "passWord123", "rich@me.com", null),
                 new User("simonE1B", "seCret11", "rich@me.com", null),
                 new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234l),
@@ -56,18 +56,22 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void test_getUsersByCreditCard_shouldReturn_Users() throws Exception {
-
-        String creditCard = "1111111111111111";
+    public void test_getUsersWithCreditCard_shouldReturn_Users() throws Exception {
+        //Given
+        String yesNoAll = "no";
+        List<User> dao = new ArrayList<User>(Arrays.asList(
+                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234l),
+                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111l)
+        ));
 
         mockMvc.perform(get("/users")
-                        .param("username", creditCard))
+                .param("yesNoAll", String.valueOf(yesNoAll)))
                 .andExpect(status().isOk());
 
-        when(registrationService.findUsersWithCreditCard(creditCard)).thenReturn(Optional.of(userDAO.get(0)));
-        Optional<User> myUser = registrationService.findUsersWithCreditCard(creditCard);
+        when(registrationService.findUsersWithCreditCard(yesNoAll)).thenReturn(dao);
+        List<User> usersWithCards = registrationService.findUsersWithCreditCard(yesNoAll);
 
-        assertEquals(userDAO.get(0).getUsername(),  myUser.get().getUsername());
-
+        assertEquals(dao,  usersWithCards);
     }
+
 }
