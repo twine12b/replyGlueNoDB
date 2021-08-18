@@ -13,7 +13,7 @@ public interface RegistrationRepository {
 
     List<User> findUsersWithOutCreditCard();
 
-    Optional<User> findUserByCreditCard(String cardNumber);
+    User findUserByCreditCard(Long cardNumber);
 
     List<User>findAllUsers();
 

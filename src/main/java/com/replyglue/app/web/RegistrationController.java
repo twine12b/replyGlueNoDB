@@ -30,7 +30,9 @@ public class RegistrationController {
     public ResponseEntity validateUser(@RequestBody User user) {
         var responseEntity = registrationService.isUserValid(user) == true ?
                 registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity(HttpStatus.CONFLICT) :
-                        registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
+                        registrationService.isAdult(user.getDob())?
+                           registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
+                                : new ResponseEntity(HttpStatus.FORBIDDEN)
                 : new ResponseEntity(HttpStatus.BAD_REQUEST);
         return responseEntity;
     }

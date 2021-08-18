@@ -3,6 +3,7 @@ package com.replyglue.app.repository;
 import com.replyglue.app.domain.User;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,10 +36,12 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
                 );
     }
 
-    public Optional<User> findUserByCreditCard(String cardNumber) {
-        return Optional.empty();
+    public User findUserByCreditCard(Long cardNumber) {
+        return userDAO.stream()
+                .filter(user -> String.valueOf(user.getCard()).equals(String.valueOf(cardNumber)))
+                .findFirst()
+                .orElse(null);
     }
-
 
     public List<User> findAllUsers() {
         return userDAO;

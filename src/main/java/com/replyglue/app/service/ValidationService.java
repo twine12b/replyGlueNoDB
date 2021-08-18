@@ -40,6 +40,11 @@ public class ValidationService {
         return doValidation(regex, Long.toString(creditCard));
     };
 
+    public boolean creditCardIsValid(long creditcard) {
+        String regex = "^[0-9]{16,16}$";
+        return doValidation(regex, Long.toString(creditcard));
+    }
+
     Function<String, Boolean> dobIsValid = dob -> {
         String regex = "^([0-9]{4})(-?)(1[0-2]|0[1-9])\\2(3[01]|0[1-9]|[12][0-9])$";
         return doValidation(regex, dob);
@@ -47,10 +52,6 @@ public class ValidationService {
 
     Function<LocalDate,  Boolean> isAdult = dob -> dob != null
             && (Period.between(dob, LocalDate.now()).getYears() > 18);
-
-
-
-
 
     protected boolean doValidation(String regex, String stringToValidate) {
         if(stringToValidate == null) return false;

@@ -18,9 +18,6 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class RegistrationServiceTest {
@@ -104,6 +101,12 @@ public class RegistrationServiceTest {
 
         testUser.setUsername("ImANewUserNotOnTheSystem123");
         assertTrue(registrationService.registerUser(testUser));
+    }
+
+    @Test
+    public void findUsersByCreditCardNumber_returns_user() {
+        User u = registrationService.findUserByCreditCard(1111111111111111L);
+        assertNotNull(u);
     }
 
 }

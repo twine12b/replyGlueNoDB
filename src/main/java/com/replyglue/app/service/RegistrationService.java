@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -30,6 +31,9 @@ public class RegistrationService extends ValidationService {
         return registrationRepository.findUsersByUsername(username);
     }
 
+    public User findUserByCreditCard(Long number) {
+         return registrationRepository.findUserByCreditCard(number);
+    }
 
     public boolean isUserValid(User user) {
         boolean isValid;
@@ -57,7 +61,8 @@ public class RegistrationService extends ValidationService {
 
         if(isUserValid(newUser)
                 && !isRegisteredUser(newUser.getUsername())
-                     && isAdult.apply(newUser.getDob()))
+                     && isAdult.apply(newUser.getDob())
+                        && (findUserByCreditCard(newUser.getCard()) ==null) == true)
         {
             registrationRepository.save(newUser);
             isChecked = true;
@@ -66,4 +71,9 @@ public class RegistrationService extends ValidationService {
 
         return isChecked;
     }
+
+    public boolean isAdult(LocalDate dob){
+        return super.isAdult.apply(dob);
+    }
+
 }
