@@ -13,7 +13,10 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
     }
 
     public User findUsersByUsername(String username) {
-        return null;
+        return userDAO.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -40,15 +43,19 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
         return userDAO;
     }
 
+    public void save(User user) {
+        userDAO.add(user);
+    }
+
     private final List<User> userDAO;
 
     private List<User> initUsers(){
         return new ArrayList<>(Arrays.asList(
                 new User("r1Chard", "passWord123", "rich@me.com", null),
                 new User("simonE1B", "seCret11", "rich@me.com", null),
-                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234l),
+                new User("chUckLes2", "lauGther", "rich@me.com", null, 1234123412341234L),
                 new User("mEshPr0ducts", "M3SHmeUp", "rich@me.com", null),
-                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111l)
+                new User("kidAccount", "k1dPwd456", "rich@me.com", null, 1111111111111111L)
         ));
     }
 

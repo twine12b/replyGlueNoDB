@@ -6,6 +6,7 @@ import com.replyglue.app.repository.RegistrationRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class RegistrationServiceTest {
@@ -25,7 +28,7 @@ public class RegistrationServiceTest {
     @Mock
     RegistrationRepository registrationRepository;
 
-    @Mock
+    @InjectMocks
     private RegistrationService registrationService;
 
     private User testUser;
@@ -77,13 +80,27 @@ public class RegistrationServiceTest {
         assertEquals(5, usersWithNoCards.size());
     }
 
-//    @Test
-//    public void test_isUserValid_shouldReturn_boolean() throws Exception {
-//        given(registrationRepository.findUsersByUsername(anyString())).willReturn(testUser);
-//        User user = registrationService.findUsersByUsername("tomHanks");
-//
-//        boolean isValid = registrationService.isRegisteredUser("r1Chard");
-//
-//        assertTrue(isValid);
-//    }
+    @Test
+    public void findUsersByUsername_shouldReturn_userInfo() {
+        User user = registrationService.findUsersByUsername("r1Chard");
+
+        assertThat(user.getUsername()).isEqualTo("r1Chard");
+        assertThat(user.getPassword()).isEqualTo("passWord123");
+        assertThat(user.getEmail()).isEqualTo("rich@me.com");
+    }
+
+    @Test
+    public void test_isRegisteredUser_returns_boolean() {
+        assertFalse(registrationService.isRegisteredUser("NoIAmNot"));
+        assertTrue(registrationService.isRegisteredUser("r1Chard"));
+    }
+
+    @Test
+    public void test_registerUser_returns_boolean(){
+        assertFalse(registrationService.registerUser(testUser));
+
+        testUser.setUsername("ImANewUserNotOnTheSystem123");
+        assertTrue(registrationService.registerUser(testUser));
+    }
+
 }

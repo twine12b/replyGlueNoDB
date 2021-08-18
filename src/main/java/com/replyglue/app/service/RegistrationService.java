@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 @AllArgsConstructor
-public class RegistrationService {
+public class RegistrationService extends ValidationService {
 
     @Autowired
     private RegistrationRepository registrationRepository;
@@ -28,5 +28,41 @@ public class RegistrationService {
 
     public User findUsersByUsername(String username) {
         return registrationRepository.findUsersByUsername(username);
+    }
+
+
+    public boolean isUserValid(User user) {
+        boolean isValid;
+
+        //TODO - refactor using combinator pattern
+
+        isValid =
+                userNameIsValid.apply(user.getUsername())
+                        && passwordIsValid.apply(user.getPassword())
+                        && emailIsValid.apply(user.getEmail());
+
+        if(user.getCard() !=null){
+            isValid = isValid && creditCardIsValid.apply(user.getCard());
+        }
+
+        return isValid;
+    }
+
+    public boolean isRegisteredUser(String username) {
+        return registrationRepository.findUsersByUsername(username) != null;
+    }
+
+    public boolean registerUser(User newUser) {
+        boolean isChecked = false;
+
+        if(isUserValid(newUser)
+                && !isRegisteredUser(newUser.getUsername()) )
+        {
+            registrationRepository.save(newUser);
+            isChecked = true;
+        }
+        // TODO - check age - refactor code - use combinator pattern
+
+        return isChecked;
     }
 }

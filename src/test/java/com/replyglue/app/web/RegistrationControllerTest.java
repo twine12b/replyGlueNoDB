@@ -57,6 +57,9 @@ public class RegistrationControllerTest {
                 .andExpect(status().isOk());
 
         when(registrationService.findAllUsers()).thenReturn(userDAO);
+
+        List<User> allUsers = registrationService.findAllUsers();
+        assertEquals(userDAO, allUsers);
     }
 
     @Test
@@ -85,7 +88,12 @@ public class RegistrationControllerTest {
                 "rich@me.com", LocalDate.of(1984, 5, 9), 1111222233334444L
         );
         mockMvc.perform(MockMvcRequestBuilders.post("/users/")
-                        .content(new Gson().toJson(testUser))
+                        .param("username", "r1pieMand1223")
+                        .param("password", "passWord123")
+                        .param("email", "rich@me.co")
+                        .param("dob", "05")
+                        .param("card", "1111222233334444")
+//                        .content(new Gson().toJson(testUser))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
 //                .andExpect(status().isCreated());  //TODO fix status code 400

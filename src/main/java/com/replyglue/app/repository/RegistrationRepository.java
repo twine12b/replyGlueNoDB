@@ -16,4 +16,6 @@ public interface RegistrationRepository {
     Optional<User> findUserByCreditCard(String cardNumber);
 
     List<User>findAllUsers();
+
+    void save(User user);
 }

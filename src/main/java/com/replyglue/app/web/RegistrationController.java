@@ -30,12 +30,11 @@ public class RegistrationController {
     public ResponseEntity validateUser(@RequestBody User user){
         //TODO - Cannot deserialize instance  of `java.util.Calendar
 
-//        var responseEntity = registrationService.isUserValid(user) == true ?
-//                registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity(HttpStatus.CONFLICT) :
-//                        registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
-//                : new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        return responseEntity;
-        return new ResponseEntity("Keep going", HttpStatus.CREATED);
+        var responseEntity = registrationService.isUserValid(user) == true ?
+                registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity(HttpStatus.CONFLICT) :
+                        registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
+                : new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return responseEntity;
     }
 
 }

@@ -34,6 +34,7 @@ public class ValidationServiceTest {
     @Test
     public void test_passwordIsValid_shouldReturn_boolean(){
         assertFalse(validationService.passwordIsValid.apply(""));
+        assertFalse(validationService.passwordIsValid.apply("c23A567"));
         assertFalse(validationService.passwordIsValid.apply("abcdegpkjy"));
         assertFalse(validationService.passwordIsValid.apply("abcde1gpkjy"));
         assertTrue(validationService.passwordIsValid.apply("Abcde1gpkjy"));
