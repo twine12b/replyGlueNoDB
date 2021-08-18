@@ -51,4 +51,6 @@ Notes
 -Validation methods are convoluted and readability would have been improved had I used the combinator pattern.  I am adopting Functional programming hence the code is a mixture of old and new styles. This was a really good challenge. 
 - Thank you for evaluation this project.  i look forward to your feedback.
 
+Application is also on GitHub - https://github.com/twine12b/replyGlueNoDB.git
+
 
