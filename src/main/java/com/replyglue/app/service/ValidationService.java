@@ -4,6 +4,8 @@ import com.replyglue.app.domain.User;
 import com.replyglue.app.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +44,9 @@ public class ValidationService {
         String regex = "^([0-9]{4})(-?)(1[0-2]|0[1-9])\\2(3[01]|0[1-9]|[12][0-9])$";
         return doValidation(regex, dob);
     };
+
+    Function<LocalDate,  Boolean> isAdult = dob -> dob != null
+            && (Period.between(dob, LocalDate.now()).getYears() > 18);
 
 
 

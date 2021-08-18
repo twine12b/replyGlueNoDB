@@ -56,7 +56,8 @@ public class RegistrationService extends ValidationService {
         boolean isChecked = false;
 
         if(isUserValid(newUser)
-                && !isRegisteredUser(newUser.getUsername()) )
+                && !isRegisteredUser(newUser.getUsername())
+                     && isAdult.apply(newUser.getDob()))
         {
             registrationRepository.save(newUser);
             isChecked = true;

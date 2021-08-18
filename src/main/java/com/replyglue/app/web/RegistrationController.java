@@ -27,9 +27,7 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity validateUser(@RequestBody User user){
-        //TODO - Cannot deserialize instance  of `java.util.Calendar
-
+    public ResponseEntity validateUser(@RequestBody User user) {
         var responseEntity = registrationService.isUserValid(user) == true ?
                 registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity(HttpStatus.CONFLICT) :
                         registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
