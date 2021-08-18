@@ -100,7 +100,7 @@ public class RegistrationServiceTest {
         assertFalse(registrationService.registerUser(testUser));
 
         testUser.setUsername("ImANewUserNotOnTheSystem123");
-        assertTrue(registrationService.registerUser(testUser));
+        assertFalse(registrationService.registerUser(testUser));
     }
 
     @Test

@@ -36,7 +36,7 @@ public class PaymentService extends RegistrationService {
     }
 
     public boolean checkCardExists(Long cardNumber) {
-        return findUserByCreditCard(cardNumber) != null ? true  : false;
+        return findUserByCreditCard(cardNumber) != null;
     }
 
 //    @Transactional
@@ -48,6 +48,6 @@ public class PaymentService extends RegistrationService {
     public boolean verifyCardReisRegistered(Long cardNumber) {
         User u = findUserByCreditCard(cardNumber);
         System.out.println(u);
-        return u != null? true : false;
+        return u != null;
     }
 }

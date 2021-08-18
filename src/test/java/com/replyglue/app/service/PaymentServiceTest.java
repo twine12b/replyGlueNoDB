@@ -48,9 +48,12 @@ public class PaymentServiceTest {
         //Given
 //        boolean validAmount = paymentService.isValidAmount(125.2);
 //        assertFalse(validAmount);
+        boolean validAmount = paymentService.isValidAmount(000);
+        assertFalse(validAmount);
 
-        boolean validAmount = paymentService.isValidAmount(66);
-        assertTrue(validAmount);
+
+        validAmount = paymentService.isValidAmount(66);
+        assertFalse(validAmount);
 
         validAmount = paymentService.isValidAmount(987);
         assertTrue(validAmount);
@@ -63,24 +66,10 @@ public class PaymentServiceTest {
     public void testCheckCardIsRegistered_returnsBoolean() {
 
         boolean cardExists = paymentService.verifyCardReisRegistered((1111222233334444L));
-//        assertFalse(cardExists);
+        assertFalse(cardExists);
 
         cardExists = paymentService.verifyCardReisRegistered(1111111111111111L);
         assertFalse( cardExists);
-
-//        cardExists = paymentService.checkCardExists(1234123412341234L);
-//        assertTrue( cardExists);
     }
-
-//    @Test
-//    public void testMakeSuccessFullPayment_shouldReturnBoolean() {
-//        //Given
-//        Payment payment = new Payment(1234123412341234L, 999);
-//        boolean successfulPayment = paymentService.makePayment(payment);
-//
-//        assertTrue(successfulPayment);
-//
-//    }
-
 
 }

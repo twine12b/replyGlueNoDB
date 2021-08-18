@@ -30,7 +30,7 @@ public class PaymentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
+    @MockBean
     PaymentService paymentService;
 
     @MockBean
@@ -61,6 +61,5 @@ public class PaymentControllerTest {
                         .content(new Gson().toJson(payment))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
-//                        .andExpect(status().isCreated());
     }
 }
