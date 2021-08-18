@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
-@ControllerAdvice
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
@@ -32,17 +30,12 @@ public class RegistrationController {
     @PostMapping(value = "/", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity validateUser(@RequestBody User user) {
         var responseEntity = registrationService.isUserValid(user)  ?
-                registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity(HttpStatus.CONFLICT) :
+                registrationService.isRegisteredUser(user.getUsername()) ? new ResponseEntity("User already registered.", HttpStatus.CONFLICT) :
                         registrationService.isAdult(user.getDob())?
-                           registrationService.registerUser(user) ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
-                                : new ResponseEntity(HttpStatus.FORBIDDEN)
-                : new ResponseEntity(HttpStatus.BAD_REQUEST);
+                           registrationService.registerUser(user) ? new ResponseEntity("["+user.getUsername() +"] is now registered", HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST)
+                                : new ResponseEntity("You must be 18 or older to register.", HttpStatus.FORBIDDEN)
+                : new ResponseEntity("User name contains ILLEGAL character/s.", HttpStatus.BAD_REQUEST);
         return responseEntity;
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleException(HttpMessageNotReadableException exception, HttpServletRequest request) {
-        return new ResponseEntity("You gave an incorrect value in your registration.", HttpStatus.BAD_REQUEST);
     }
 
 }

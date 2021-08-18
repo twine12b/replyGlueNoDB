@@ -6,19 +6,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
-@SuppressWarnings("rawtypes")
-@ControllerAdvice
 @RestController
 @AllArgsConstructor
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
 
     @PostMapping("/payments")
     public ResponseEntity<String> makePayment(@RequestBody Payment payment) {
@@ -40,10 +36,4 @@ public class PaymentController {
         return paymentService.checkCardExists(Long.parseLong(card_details))?
               new ResponseEntity<>("Payment Received", HttpStatus.CREATED) : new ResponseEntity<>("Card Number Not Valid", HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleException(HttpMessageNotReadableException exception, HttpServletRequest request) {
-        return new ResponseEntity("You gave an incorrect value in your payment.", HttpStatus.BAD_REQUEST);
-    }
-
 }
