@@ -17,17 +17,11 @@ public class RegistrationService {
 
 
     public List<User> findUsersWithCreditCard(String yesNoALl) {
-        List cardList = new ArrayList<>();
-
         switch (yesNoALl) {
-            case "yes":
-                cardList =registrationRepository.findUsersWithCreditCard();  break;
-            case "no":
-                cardList = registrationRepository.findUsersWithOutCreditCard(); break;
-            default:
-                cardList =registrationRepository.findAllUsers(); break;
+            case "yes": return registrationRepository.findUsersWithCreditCard();
+            case "no":  return  registrationRepository.findUsersWithOutCreditCard();
+            default:    return registrationRepository.findAllUsers();
         }
-        return cardList;
     }
 
 

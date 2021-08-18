@@ -4,8 +4,6 @@ import com.replyglue.app.domain.User;
 import com.replyglue.app.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +19,6 @@ public class RegistrationController {
 
     @GetMapping()
     public List<User> getUsersByFilter(@RequestParam("CreditCard") Optional<String> yesNoAll) {
-        System.out.println(registrationService.findUsersWithCreditCard("all"));
         return yesNoAll.isPresent()? registrationService.findUsersWithCreditCard(yesNoAll.get()) :
                 registrationService.findUsersWithCreditCard("all");
     }

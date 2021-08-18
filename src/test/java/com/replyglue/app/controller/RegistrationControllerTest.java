@@ -65,7 +65,7 @@ public class RegistrationControllerTest {
         ));
 
         mockMvc.perform(get("/users")
-                .param("yesNoAll", String.valueOf(yesNoAll)))
+                .param("yesNoAll", yesNoAll))
                 .andExpect(status().isOk());
 
         when(registrationService.findUsersWithCreditCard(yesNoAll)).thenReturn(dao);

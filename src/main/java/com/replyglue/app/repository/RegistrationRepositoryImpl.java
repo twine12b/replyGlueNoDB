@@ -40,7 +40,7 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
         return userDAO;
     }
 
-    private List<User> userDAO;
+    private final List<User> userDAO;
 
     private List<User> initUsers(){
         return new ArrayList<>(Arrays.asList(
